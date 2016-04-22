@@ -10,7 +10,7 @@
     "vinyl"
   ],
   "author": "Wynn Slater",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "vinyl": "^1.1.1"
   },
