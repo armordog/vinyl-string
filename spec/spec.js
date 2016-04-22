@@ -57,6 +57,7 @@ describe("vinyl-string", function () {
 			function (result) {
 				expect(result[0].contents.toString()).toBe(TEST_STRING);
 				expect(result[1].contents.toString()).toBe(UPSTREAM_CONTENT);
+				expect(result.length).toBe(3);
 			},
 			function (error) {
 				fail(error.message);
@@ -105,6 +106,9 @@ function getInputStream (contents) {
 		read: function () {
 			this.push(new Vinyl({
 				contents: new Buffer(contents)
+			}));
+			this.push(new Vinyl({
+				contents: new Buffer(contents + " 2")
 			}));
 			this.push(null);
 		}
