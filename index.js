@@ -2,24 +2,44 @@
 
 'use strict';
 
-function stringToVinylStream (string, options) {
+function stringToVinylStream (rawContents, options) {
 	var File = require('vinyl');
 	var Transform = require('stream').Transform;
+	var keepOpen = false;
 
 	options = options || {};
 
-	options.contents = new Buffer(string);
-
-	var vFile = new File(options);
+	var vFile = new File({
+		cwd: options.cwd,
+		base: options.base,
+		path: options.path,
+		history: options.history,
+		stat: options.stat,
+		contents: wrapContents(rawContents)
+	});
 
 	var stream = new Transform({
-		objectMode: true
+		objectMode: true,
+		transform: function (chunk, encoding, next) {
+			// passthrough
+			next(null, chunk);
+		}
 	});
 
 	stream.push(vFile);
-	stream.push(null);
+	if (!options.keepOpen) {
+		stream.push(null);
+	}
 
 	return stream;
+}
+
+function wrapContents (raw) {
+	if (Buffer.isBuffer(raw)) {
+		return raw;
+	}
+	
+	return new Buffer(raw);
 }
 
 module.exports = stringToVinylStream;
