@@ -6,6 +6,10 @@
   "scripts": {
     "test": "jasmine"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/armordog/vinyl-string.git"
+  },
   "keywords": [
     "vinyl"
   ],
